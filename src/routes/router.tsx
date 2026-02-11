@@ -10,7 +10,6 @@ import Private from './privateRoutes'
 const Rotas: React.FC = () => {
   return (
     <Router>
-      
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Private><Layout /></Private>    } >
