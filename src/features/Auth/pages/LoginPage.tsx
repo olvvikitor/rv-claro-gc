@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useLogin } from "../hook/userLogin";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+    const navigate = useNavigate()
     const{mutate, isPending , error} = useLogin()
 
     const [email, setEmail] = useState("")
@@ -16,6 +18,7 @@ export default function LoginPage() {
             onSuccess:(user:any)=>{
                 console.log("Logado: ", user)
                 localStorage.setItem(user, JSON.stringify(user))
+                navigate('/dashboard')
             }
 
         });

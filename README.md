@@ -105,6 +105,195 @@ export default {
 }
 ```
 
+
+Perfeito 👌 vou montar um README organizado e profissional baseado exatamente no que você construiu até agora.
+
+Você pode copiar e colar no seu `README.md`.
+
+---
+
+# 🚀 Sistema de Login com React + TypeScript + Vite
+
+Este projeto foi desenvolvido para aprendizado prático de React moderno, utilizando arquitetura organizada por feature e integração com API fake via JSON Server.
+
+---
+
+# 🧱 Stack Utilizada
+
+* ⚛ React
+* 🟦 TypeScript
+* ⚡ Vite
+* 🌐 React Router DOM
+* 📡 Axios
+* 🧠 TanStack Query (React Query)
+* 🗄 JSON Server (API fake)
+
+---
+
+# 📁 Estrutura do Projeto (até o momento)
+
+```
+src/
+  features/
+    Auth/
+      pages/
+        LoginPage.tsx
+      hooks/
+        useLogin.ts
+      service/
+        authServices.ts
+
+    Dashboard/
+      pages/
+        DashboardPage.tsx
+
+  routes/
+    Rotas.tsx
+
+  providers/
+    QueryProvider.tsx
+
+  service/
+    api.ts
+```
+
+---
+
+# 🔐 Fluxo do Login
+
+Fluxo completo da autenticação:
+
+```
+Form → useLogin → requestLogin → Axios → JSON Server 
+→ valida usuário → retorna dados → salva no localStorage → redireciona
+```
+
+---
+
+# 🧠 Conceitos Aplicados
+
+## 1️⃣ React Router
+
+* SPA (Single Page Application)
+* Configuração de rotas
+* Redirecionamento com `useNavigate()`
+
+Exemplo:
+
+```tsx
+navigate("/dashboard");
+```
+
+---
+
+## 2️⃣ Axios
+
+Criação de instância centralizada:
+
+```ts
+const api = axios.create({
+  baseURL: "http://localhost:3001",
+});
+```
+
+Benefícios:
+
+* Centralização da URL base
+* Facilita manutenção
+* Escalável
+
+---
+
+## 3️⃣ JSON Server
+
+Simulação de backend com:
+
+```
+/users
+/results
+```
+
+Filtro por query param:
+
+```
+/users?email=operador@teste.com
+```
+
+---
+
+## 4️⃣ TanStack Query
+
+Uso de `useMutation` para login.
+
+Motivo:
+
+* Login modifica estado (ação)
+* Não é apenas busca de dados
+
+Exemplo:
+
+```tsx
+const { mutate, isPending, error } = useMutation(...)
+```
+
+Benefícios:
+
+* Controle automático de loading
+* Tratamento de erro
+* Callbacks onSuccess/onError
+* Código mais limpo que useState + useEffect
+
+---
+
+# 📦 Simulação de Autenticação
+
+O login funciona assim:
+
+1. Busca usuário pelo email
+2. Verifica se existe
+3. Compara senha manualmente
+4. Retorna usuário
+5. Salva no localStorage
+
+```ts
+localStorage.setItem("user", JSON.stringify(user));
+```
+
+---
+
+# 🎯 O Que Foi Aprendido
+
+✔ Organização por feature
+✔ Separação de responsabilidades
+✔ Comunicação com API
+✔ Mutations com React Query
+✔ Navegação entre páginas
+✔ Estrutura escalável
+✔ Simulação de autenticação
+
+---
+
+# 📌 Próximos Passos Planejados
+
+* 🔒 Proteção de rota (Private Route)
+* 📊 Buscar resultados com useQuery
+* 🎨 Adicionar biblioteca de UI
+* 🔓 Implementar logout
+* 🧠 Criar contexto global de autenticação
+
+---
+
+# 🧩 Observação Arquitetural
+
+O projeto está sendo estruturado seguindo princípios modernos:
+
+* Feature-based architecture
+* Separação entre UI, lógica e API
+* Centralização de serviços
+* Preparado para escalar
+
+---
+
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
