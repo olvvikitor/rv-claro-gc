@@ -2,44 +2,60 @@ import React, { useState } from "react";
 import { useLogin } from "../hook/userLogin";
 import { useNavigate } from "react-router-dom";
 
+
 export default function LoginPage() {
     const navigate = useNavigate()
-    const{mutate, isPending , error} = useLogin()
+    const{loading, data , error, logar} = useLogin()
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [site, setSite] = useState("")
+    const [login, setLogin] = useState("")
+    const [senha, setSenha] = useState("")
 
+    const sites =[{
+       label:"Comercio", value:"COMERCIO" }]
 
     function handleSubmit(e:React.FormEvent){
         e.preventDefault();
 
-        mutate(
-        {email, password},{
-            onSuccess:(user:any)=>{
-                console.log("Logado: ", user)
-                localStorage.setItem(user, JSON.stringify(user))
-                navigate('/dashboard')
-            }
+        logar({site, login, senha})
+        localStorage.setItem("tokenRVGC", data.token)
+        localStorage.setItem("user", JSON.stringify(data.user))
+        navigate('/')
+            
 
-        });
+
     }
 
   return (
-    <div style={{ 
-      display: "flex", 
-      height: "100vh", 
-      alignItems: "center", 
-      justifyContent: "center" 
-    }}>
+    <div className="bg-red-400" >
       <div>
         <form onSubmit={handleSubmit}>
         <h1>Login</h1>
+
+          <div>
+            <select
+              value={site} 
+              onChange={(e)=>setSite(e.target.value)}>
+
+                <option value="">Selecione o site</option>
+                {
+                  sites.map((item) =>(
+                    <option key={item.value} value={item.value}>
+                    {item.label}
+                    </option>
+                  ))
+                }
+              </select>
+          </div>
+
+          <br />
+
           <div>
             <input 
-              type="email" 
+              type="text" 
               placeholder="Email" 
-              value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              value={login}
+              onChange={(e)=>setLogin(e.target.value)}
             />
           </div>
           <br />
@@ -48,14 +64,14 @@ export default function LoginPage() {
             <input 
               type="password" 
               placeholder="Senha" 
-              value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              value={senha}
+              onChange={(e)=>setSenha(e.target.value)}
             />
           </div>
           <br />
           <button type="submit" >
             {
-                isPending ? "Entrando..." : "Entrar"
+                loading ? "Entrando..." : "Entrar"
             }
           </button>
           {error && (
