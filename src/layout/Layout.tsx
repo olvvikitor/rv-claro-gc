@@ -3,10 +3,11 @@ import { Outlet } from 'react-router-dom'
 
 import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
+import Header from './Header'
 function Layout() {
   return (
     <div className='min-h-screen bg-gray-100'>
-        <Navbar/>
+        <Header/>
             <main className='p-6'>
             <Outlet/>
             </main>

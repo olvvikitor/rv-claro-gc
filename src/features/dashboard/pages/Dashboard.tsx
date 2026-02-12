@@ -1,4 +1,3 @@
-import { useResults } from "../hook/useResults";
 import { useDashboard } from "../hook/useSummary";
 
 export default function DashboardPage() {
@@ -15,7 +14,6 @@ export default function DashboardPage() {
     return(
         <div>
             <h1>Dashboard</h1>
-
             <p>Valor bruto :R${data?.valorBruto}</p>
 
         </div>

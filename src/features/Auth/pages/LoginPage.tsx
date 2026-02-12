@@ -17,13 +17,10 @@ export default function LoginPage() {
     function handleSubmit(e:React.FormEvent){
         e.preventDefault();
 
-        logar({site, login, senha})
-        localStorage.setItem("tokenRVGC", data.token)
-        localStorage.setItem("user", JSON.stringify(data.user))
+        // logar({site, login, senha})
+        // localStorage.setItem("tokenRVGC", data.token)
+        // localStorage.setItem("user", JSON.stringify(data.user))
         navigate('/')
-            
-
-
     }
 
   return (
