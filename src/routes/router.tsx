@@ -12,8 +12,7 @@ const Rotas: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/" element={<Private><Layout /></Private>    } > */}
-        <Route path="/" element={<Layout />} >
+        <Route path="/" element={<Private><Layout /></Private>    } >
         <Route index path="/" element={<DashboardPage />} />
         </Route>
       </Routes>

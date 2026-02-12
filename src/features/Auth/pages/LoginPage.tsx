@@ -11,15 +11,16 @@ export default function LoginPage() {
     const [login, setLogin] = useState("")
     const [senha, setSenha] = useState("")
 
-    const sites =[{
-       label:"Comercio", value:"COMERCIO" }]
+    const sites =[
+      {label:"Comercio", value:"COMERCIO" },
+      {label:"FSA", value:"FSA" }]
 
     function handleSubmit(e:React.FormEvent){
         e.preventDefault();
 
-        // logar({site, login, senha})
-        // localStorage.setItem("tokenRVGC", data.token)
-        // localStorage.setItem("user", JSON.stringify(data.user))
+        logar({site, login, senha})
+        localStorage.setItem("tokenRVGC", data.token)
+        localStorage.setItem("user", JSON.stringify(data.user))
         navigate('/')
     }
 

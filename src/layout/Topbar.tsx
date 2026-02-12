@@ -1,12 +1,73 @@
-import { LogOut } from "lucide-react";
+import { LogOut, Moon, Sun, User } from "lucide-react";
 import logo from "../assets/logo/claro_logo.png";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Upload } from "lucide-react"
+import { UploadModal } from "./ModalUpload";
+import { UserModal } from "./ModalUser";
+export type User = {
+  id: string
+  matricula: string
+  nome: string
+  email: string
+  supervisor: string
+  coordenador: string
+  operacao: string
+  site: string
+  exp: number
+  permissoes: boolean
+}
 
 export default function Topbar() {
+    const navigate = useNavigate()
+    const storedUser = localStorage.getItem("user")
+    let user:User | null = null
+
+    if (storedUser) {
+    user = JSON.parse(storedUser)
+    }
+
+    const [darkMode, setDarkMode] = useState(false)
+
+    const [openUploadModal, setUploadModal] = useState(false)
+    const [openInfoUserModal, setOpenInfoUserModal] = useState(false)
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme")
+        if (savedTheme === "dark") {
+            setDarkMode(true)
+            document.documentElement.classList.add("dark")
+        }
+    }, [])
+
+    const logout = () =>{
+        localStorage.removeItem("user")
+        localStorage.removeItem("tokenRVGC")
+        navigate('/login')
+    }
+
+    const toggleTheme = () => {
+        const newTheme = !darkMode
+        setDarkMode(newTheme)
+
+        if (newTheme) {
+            document.documentElement.classList.add("dark")
+            localStorage.setItem("theme", "dark")
+        } else {
+            document.documentElement.classList.remove("dark")
+            localStorage.setItem("theme", "light")
+        }
+    }
+
+
+
     return (
-        <div className="flex items-center justify-between px-6 py-3 bg-white shadow-sm">
+        <>
+        <nav className="w-full h-16 bg-white dark:bg-zinc-800 flex items-center px-6 transition-colors">
+
             {/* Logo */}
             <div>
-                <img 
+                <img
                     src={logo}
                     alt="Logo"
                     className="h-10 object-contain"
@@ -14,22 +75,66 @@ export default function Topbar() {
             </div>
 
             {/* User Area */}
-            <div className="flex items-center gap-3">
-                <div className="flex flex-col leading-tight">
-                <span className="text-xs text-gray-400">Bem-vindo</span>
-                <span className="text-sm font-semibold text-gray-800">
-                    Victor Oliveira
+            <div className="px-6 flex items-center gap-3">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                    Olá,
                 </span>
-                </div>
+                <span className="text-sm font-semibold text-gray-800 dark:text-white">
+                {user?.nome || ""}
+                </span>
             </div>
 
-        {/* LOGOUT AREA */}
-        <div>
-            <button type="button" className="cursor-pointer flex items-center gap-2 px-4 py-2 text-red-600 rounded-md hover:bg-red-50 transition">
-            <LogOut size={18} />
-            </button>
-        </div>
+            {/* Buttons */}
+            <div className="ml-auto flex items-center gap-2">
 
-        </div>
-    );
+
+
+                {/* Toggle Theme */}
+                <button
+                    onClick={toggleTheme}
+                    type="button"
+                    className="group cursor-pointer p-2 rounded-md hover:bg-gray-500 dark:hover:bg-zinc-300 transition"
+                >
+                    {darkMode ? (
+                        <Sun size={23} className="group-hover:text-red-600 w-5 h-5 text-yellow-500" />
+                    ) : (
+                        <Moon size={23} className="group-hover:text-red-600 w-5 h-5 text-zinc-600 dark:text-white" />
+                    )}
+                </button>
+
+                {/* Toggle Modal */}
+                {user?.permissoes === true &&(
+                <button
+                    onClick={()=>setUploadModal(true)}
+                    type="button"
+                    className="group cursor-pointer p-2 rounded-md hover:bg-gray-500 dark:hover:bg-zinc-300 transition"
+                >
+                <Upload size={23} className="group-hover:text-red-600 text-gray-700 dark:text-white"></Upload>
+                </button>
+                )}
+
+
+                {/* User */}
+                <button onClick={()=>setOpenInfoUserModal(true)} className="group cursor-pointer p-2 rounded-md hover:bg-gray-500 dark:hover:bg-zinc-300 transition">
+                    <User size={23} className="group-hover:text-red-600 text-gray-700 dark:text-white" />
+                </button>
+
+                {/* Logout */}
+                <button onClick={logout} className="group cursor-pointer p-2 rounded-md hover:bg-gray-500 dark:hover:bg-zinc-300 transition">
+                    <LogOut size={23} className="group-hover:text-red-600 text-gray-700 dark:text-white" />
+                </button>
+
+            </div>
+        </nav>
+        <UploadModal
+        open={openUploadModal}
+        onClose={() => setUploadModal(false)}
+        />
+        <UserModal
+        open={openInfoUserModal}
+        onClose={()=>setOpenInfoUserModal(false)}
+        user={user as User}
+        />    
+    </>
+    )
 }
