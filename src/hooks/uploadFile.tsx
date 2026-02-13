@@ -7,7 +7,7 @@ export function useUploadFile(
   const [data, setData] = useState<any>()
   const [error, setError] = useState()
   const token = localStorage.getItem("tokenRVGC")
-
+console.log(token)
   async function enviarFile(file:File){
     const formData = new FormData()
     formData.append('file', file)
@@ -24,10 +24,10 @@ export function useUploadFile(
     })
     setData(response.data)
     setLaoding(false)
-    console.log(loading, response.data)
   }
 
   catch(err :any){
+    console.log(err)
     setError(err)
   }
   }

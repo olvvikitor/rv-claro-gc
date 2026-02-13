@@ -1,9 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSummary } from "../service/dashboardService";
+import { useState } from "react";
+import api from "../../../service/api";
+import { SummaryData } from "../components/SummarySection";
 
-export function useDashboard() {
-  return useQuery({
-    queryKey: ["summary"],
-    queryFn: getSummary,
-  });
-}
+// useSummary.ts
+export const useSummary = () => {
+  const [data, setData] = useState<SummaryData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const getSummary = async (ano: number, mes: number) => {
+    try {
+      setLoading(true);
+      const response = await api.get(`/operador?ano=${ano}&mes=${mes}`);
+      setData(response.data);
+    } catch (err) {
+      setError("Erro ao buscar resumo");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { data, loading, error, getSummary };
+};
