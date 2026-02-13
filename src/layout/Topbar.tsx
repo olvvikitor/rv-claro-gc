@@ -63,7 +63,7 @@ export default function Topbar() {
 
     return (
         <>
-        <nav className="w-full h-16 bg-white dark:bg-zinc-800 flex items-center px-6 transition-colors">
+        <nav className="w-full h-16 bg-white dark:bg-zinc-800 shadow flex items-center px-6 transition-colors">
 
             {/* Logo */}
             <div>
@@ -86,8 +86,6 @@ export default function Topbar() {
 
             {/* Buttons */}
             <div className="ml-auto flex items-center gap-2">
-
-
 
                 {/* Toggle Theme */}
                 <button

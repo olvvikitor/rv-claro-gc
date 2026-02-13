@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSummary } from "../hook/useSummary";
+import { HandCoins } from "lucide-react";
 
 export interface SummaryData {
   operador: {
@@ -17,7 +18,7 @@ export interface SummaryData {
     descontoDeflatores: number;
     descontoFaltasValor: number;
     rvFinal: number;
-    createdAt:string
+    createdAt: string
   };
 }
 
@@ -48,31 +49,40 @@ const SummarySection: React.FC = () => {
 
   return (
     <div className="bg-white rounded-2xl p-8 shadow-md dark:bg-gray-900 transition-all duration-1000 ease-in-out">
-      
+
       {/* Header + Filtros */}
       <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-xl font-semibold dark:text-white">
-            Remuneração variável
-          </h2>
-          <p className="text-gray-500 text-sm dark:gray-300">
-            Valor que você vai receber neste mês
-          </p>
+        <div className="flex flex-col gap-1">
+          {/* linha do titulo */}
+          <div className="flex itemns-center gap-3">
+            <h2 className="text-xl font-semibold dark:text-white">
+              Remuneração variável
+            </h2>
+          <HandCoins
+            size={23}
+            className="text-green-600 dark:text-yellow-400 transition-all duration-900"
+          />
+          </div>
+            <p className="text-gray-500 text-sm dark:gray-300">
+              Valor que você vai receber neste mês
+            </p>
         </div>
 
         <div className="flex gap-4 items-center">
+          <h1 className="text-xl font-semibold text-gray-500 dark:text-gray-400">Mês:</h1>
           <select
             value={mes}
             onChange={(e) => setMes(Number(e.target.value))}
             className="border rounded-lg px-3 py-2 dark:text-gray-400"
           >
             {Array.from({ length: 12 }, (_, i) => (
-              <option key={i + 1} value={i + 1} className="text-black dark:bg-zinc-800 dark:text-white\">
+              <option key={i + 1} value={i + 1} className="text-black dark:bg-zinc-800 dark:text-white">
                 {i + 1}
               </option>
             ))}
           </select>
 
+          <h1 className="text-xl font-semibold text-gray-500 dark:text-gray-400">Ano:</h1>
           <select
             value={ano}
             onChange={(e) => setAno(Number(e.target.value))}
@@ -93,7 +103,7 @@ const SummarySection: React.FC = () => {
       {/* Última atualização */}
       <div className="text-right text-sm text-gray-500 mb-4 dark:text-white">
         <p>Última atualização</p>
-        <p  className="dark:text-gray-400">{ultimaAttStr  ?? "-"}</p>
+        <p className="dark:text-gray-400">{ultimaAttStr ?? "-"}</p>
       </div>
 
       {/* Cards */}
