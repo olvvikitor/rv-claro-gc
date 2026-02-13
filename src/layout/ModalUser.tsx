@@ -51,8 +51,8 @@ export function UserModal({ open, onClose, user }: userModalProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Info icon={<User size={23} />} label="Nome Completo" value={user.nome} highlight />
                         <Info icon={<IdCardLanyard size={23} />} label="Matrícula" value={user.matricula} highlight />
-                        <Info icon={<UserStar size={23} />} label="Supervisor" value={user.supervisor} />
-                        <Info icon={<ShieldUser size={23} />} label="Coordenador" value={user.coordenador} />
+                        <Info icon={<UserStar size={23} />} label="Supervisor" value={user.supervisor} highlight />
+                        <Info icon={<ShieldUser size={23} />} label="Coordenador" value={user.coordenador} highlight />
                     </div>
                 </div>
             </div>

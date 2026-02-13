@@ -13,6 +13,7 @@ export function useUploadFile(
     formData.append('file', file)
 
   try{
+
     setLaoding(true)
     const response = await api.post('/upload/input-base', formData,{
         headers:{
@@ -22,6 +23,8 @@ export function useUploadFile(
         
     })
     setData(response.data)
+    setLaoding(false)
+    console.log(loading, response.data)
   }
 
   catch(err :any){
