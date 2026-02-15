@@ -1,6 +1,7 @@
 import React from "react"
 import { User as TypeUser } from "./Topbar"
 import { IdCardLanyard, ShieldUser, User, UserStar, X } from "lucide-react"
+
 type userModalProps = {
     open: boolean
     onClose: () => void

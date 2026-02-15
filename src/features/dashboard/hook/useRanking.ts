@@ -5,17 +5,15 @@ import api from "../../../service/api";
 import { SummaryData } from "../components/SummarySection";
 
 // useSummary.ts
-export const useSummary = () => {
-  const [data, setData] = useState<SummaryData | null>(null);
+export const useRanking = () => {
+  const [data, setData] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getSummary = async (ano: number, mes: number) => {
+  const getRanking = async (ano: number, mes: number) => {
     try {
       setLoading(true);
-      setError(null);   
-      setData(null); 
-      const response = await api.get(`/operador?ano=${ano}&mes=${mes}`);
+      const response = await api.get(`/operador/ranking?ano=${ano}&mes=${mes}`);
       setData(response.data);
     } catch (err) {
       setError("Erro ao buscar resumo");
@@ -24,5 +22,5 @@ export const useSummary = () => {
     }
   };
 
-  return { data, loading, error, getSummary };
+  return { data, loading, error, getRanking };
 };
