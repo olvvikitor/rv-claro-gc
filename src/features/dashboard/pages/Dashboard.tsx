@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SummarySection from "../components/SummarySection";
 import DateFilter from "../components/DateFilter";
 import RankingSection from "../components/RankingSection";
+import IndicatorsSection from "../components/IndicatorsSection";
+import { useSummary } from "../hooks/useSummary";
 
 export default function DashboardPage() {
   const currentDate = new Date();
@@ -9,17 +11,29 @@ export default function DashboardPage() {
   const [ano, setAno] = useState(currentDate.getFullYear());
   const [mes, setMes] = useState(currentDate.getMonth() + 1);
 
+  const { data: summaryData, loading: summaryLoading, error: summaryError, getSummary } = useSummary();
+
+  useEffect(() => {
+    getSummary(ano, mes);
+  }, [ano, mes]);
+
   return (
-    <div className="space-y-8">
-      <DateFilter
-        ano={ano}
-        mes={mes}
-        onAnoChange={setAno}
-        onMesChange={setMes}
+    <div className="space-y-8 animate-fadeIn">
+      <DateFilter ano={ano} mes={mes} onAnoChange={setAno} onMesChange={setMes} />
+
+      <SummarySection
+        data={summaryData}
+        loading={summaryLoading}
+        error={summaryError}
       />
 
-      <SummarySection ano={ano} mes={mes} />
-      <RankingSection ano={ano} mes={mes}/>
+      <IndicatorsSection
+        data={summaryData}
+        loading={summaryLoading}
+        error={summaryError}
+      />
+
+      <RankingSection ano={ano} mes={mes} />
     </div>
   );
 }
