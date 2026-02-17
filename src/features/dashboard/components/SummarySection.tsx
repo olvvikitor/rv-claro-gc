@@ -4,6 +4,7 @@ import { Cards } from "./Card";
 import RemuneracaoModal from "./RemuneracaoModal";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 import { SummaryData } from "../types/dashboard";
+import ModalCalculo from "./ModalCalculo";
 
 export interface SummaryProps {
   data: SummaryData | null;
@@ -12,8 +13,9 @@ export interface SummaryProps {
 }
 
 const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
+  const dataTeste = data
   const [openModal, setOpenModal] = useState(false);
-
+  const [openModalCalculo, setOpenModalCalculo] = useState(false)
   if (loading) {
     return (
       <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl p-8 shadow-md animate-pulse">
@@ -66,6 +68,14 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
           >
             <HelpCircle className="text-zinc-400 group-hover:text-red-500 transition-colors" size={20} />
           </button>
+          <button
+            onClick={() => setOpenModalCalculo(true)}
+            className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 
+              hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-200
+              group"
+          >
+            <HelpCircle className="text-zinc-400 group-hover:text-red-500 transition-colors" size={20} />
+          </button>
         </div>
 
         {/* Cards */}
@@ -105,6 +115,13 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       />
+      <ModalCalculo
+        open={
+          openModalCalculo
+        }
+        onClose={() => setOpenModalCalculo(false)}
+        data={dataTeste as SummaryData }
+      ></ModalCalculo>
     </>
   );
 };

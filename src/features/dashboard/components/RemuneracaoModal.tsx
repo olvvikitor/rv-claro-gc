@@ -1,5 +1,6 @@
 import React from "react";
 import { XCircle, TrendingUp, AlertTriangle, Percent } from "lucide-react";
+import { createPortal } from "react-dom";
 
 interface RemuneracaoModalProps {
     isOpen: boolean;
@@ -12,7 +13,7 @@ const RemuneracaoModal: React.FC<RemuneracaoModalProps> = ({
 }) => {
     if (!isOpen) return null;
 
-    return (
+    return createPortal(
         <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={onClose}
@@ -22,7 +23,7 @@ const RemuneracaoModal: React.FC<RemuneracaoModalProps> = ({
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-700 p-6 sticky top-0 bg-white dark:bg-zinc-900 rounded-t-2xl z-10">
+                <div className="flex justify-between items-start border-b border-zinc-200 dark:border-zinc-700 sticky top-0 bg-white dark:bg-zinc-900 rounded-t-2xl z-10 p-4">
                     <h2 className="text-xl font-bold text-zinc-800 dark:text-white flex items-center gap-3">
                         <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl">
                             <TrendingUp className="text-emerald-600 dark:text-emerald-400" size={20} />
@@ -142,7 +143,8 @@ const RemuneracaoModal: React.FC<RemuneracaoModalProps> = ({
                     </section>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

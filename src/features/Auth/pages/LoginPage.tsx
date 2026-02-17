@@ -41,9 +41,7 @@ export default function LoginPage() {
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-8 md:p-10">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
               <img src={logo} alt="Claro Logo" className="h-10 object-contain" />
-            </div>
           </div>
 
           {/* Title */}
@@ -95,7 +93,7 @@ export default function LoginPage() {
               />
               <input
                 type="text"
-                placeholder="E-mail ou matrícula"
+                placeholder="Matrícula"
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
                 className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm
