@@ -4,6 +4,7 @@ import DateFilter from "../components/DateFilter";
 import RankingSection from "../components/RankingSection";
 import IndicatorsSection from "../components/IndicatorsSection";
 import { useSummary } from "../hooks/useSummary";
+import { PerformanceTicker } from "../components/Strip";
 
 export default function DashboardPage() {
   const currentDate = new Date();
@@ -20,6 +21,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8 animate-fadeIn">
       <DateFilter ano={ano} mes={mes} onAnoChange={setAno} onMesChange={setMes} />
+      <PerformanceTicker data={summaryData}/>
 
       <SummarySection
         data={summaryData}

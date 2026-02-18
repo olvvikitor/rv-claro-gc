@@ -15,8 +15,9 @@ export interface SummaryData {
         descontoFaltasValor: number;
         rvFinal: number;
         createdAt: string;
-        absPercentual?: number;
-        erroCriticoQtd?: number;
+        absPercentual: number;
+        erroCriticoQtd: number;
+        erroCriticoPercent: number;
         quebraAgendaPercent?: number;
     };
 }

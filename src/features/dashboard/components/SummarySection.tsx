@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HandCoins, HelpCircle, TrendingUp, TrendingDown, Gift, DollarSign } from "lucide-react";
+import { HandCoins, HelpCircle, TrendingUp, TrendingDown, Gift, DollarSign, Calculator } from "lucide-react";
 import { Cards } from "./Card";
 import RemuneracaoModal from "./RemuneracaoModal";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
@@ -55,27 +55,59 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
                 Remuneração Variável
               </h2>
             </div>
-            <p className="text-zinc-500 text-sm dark:text-zinc-400 ml-1">
-              Valor que você vai receber neste mês
+            <p className="text-yellow-500 text-sm dark:text-yellow-200 ml-1 text-[12px]">
+              Valores sujeitos a alterações conforme alterações de indicadores até fechamento do mês
             </p>
           </div>
 
-          <button
-            onClick={() => setOpenModal(true)}
-            className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 
-              hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-200
-              group"
-          >
-            <HelpCircle className="text-zinc-400 group-hover:text-red-500 transition-colors" size={20} />
-          </button>
-          <button
-            onClick={() => setOpenModalCalculo(true)}
-            className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 
-              hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-200
-              group"
-          >
-            <HelpCircle className="text-zinc-400 group-hover:text-red-500 transition-colors" size={20} />
-          </button>
+          <div className="flex items-center gap-3">
+
+            {/* Base de Cálculo */}
+            <button
+              onClick={() => setOpenModal(true)}
+              className="
+      flex items-center gap-2
+      px-4 py-2.5 rounded-xl
+      bg-zinc-100 dark:bg-zinc-800
+      hover:bg-zinc-200 dark:hover:bg-zinc-700
+      transition-all duration-200
+      group
+    "
+            >
+              <HelpCircle
+                className="text-zinc-400 group-hover:text-red-500 transition-colors"
+                size={18}
+              />
+              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300 group-hover:text-red-500 transition-colors">
+                Regras de cálculo
+              </span>
+            </button>
+
+            {/* Como foi calculado */}
+            <button
+              onClick={() => setOpenModalCalculo(true)}
+              className="
+      flex items-center gap-2
+      px-4 py-2.5 rounded-xl
+      bg-zinc-100 dark:bg-zinc-800
+      hover:bg-zinc-200 dark:hover:bg-zinc-700
+      transition-all duration-200
+      group
+    "
+            >
+              <Calculator
+                className="text-zinc-400 group-hover:text-red-500 transition-colors"
+                size={18}
+              />
+              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300 group-hover:text-red-500 transition-colors">
+                Como foi calculado
+              </span>
+            </button>
+
+          </div>
+
+
+
         </div>
 
         {/* Cards */}
@@ -88,13 +120,6 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
             description={`(${data?.dados.vendasRealizadas} vendas × R$ ${data?.dados.valorUnitarioAplicado}) = ${formatCurrency(data?.dados.rvBase)}`}
           />
           <Cards
-            title="Desconto"
-            value={formatCurrency(data?.dados.descontoDeflatores)}
-            color="red"
-            icon={<TrendingDown size={18} />}
-            description={`Descontos aplicados: ABS: ${data?.dados.absPercentual ?? 0}% | Erros Críticos: ${data?.dados.erroCriticoQtd ?? 0} | Total: ${formatCurrency(data?.dados.descontoDeflatores)}`}
-          />
-          <Cards
             title="Bonificações"
             value={formatCurrency(data?.dados.bonusValor)}
             color="blue"
@@ -102,7 +127,15 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
             description={`Bônus calculado sobre o valor base: ${formatCurrency(data?.dados.rvBase)} + bônus = ${formatCurrency(data?.dados.bonusValor)}`}
           />
           <Cards
-            title="Total a Receber"
+            title="Desconto"
+            value={formatCurrency(data?.dados.descontoDeflatores)}
+            color="red"
+            icon={<TrendingDown size={18} />}
+            description={`Descontos aplicados: ABS: ${data?.dados.absPercentual ?? 0}% | Erros Críticos: ${data?.dados.erroCriticoQtd ?? 0} | Total: ${formatCurrency(data?.dados.descontoDeflatores)}`}
+          />
+
+          <Cards
+            title="Total Previsto"
             value={formatCurrency(data?.dados.rvFinal)}
             color="darkGreen"
             icon={<DollarSign size={18} />}
@@ -120,7 +153,7 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
           openModalCalculo
         }
         onClose={() => setOpenModalCalculo(false)}
-        data={dataTeste as SummaryData }
+        data={dataTeste as SummaryData}
       ></ModalCalculo>
     </>
   );

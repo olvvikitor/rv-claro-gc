@@ -1,7 +1,13 @@
 import api from "@/shared/api/apiClient";
+import axios from "axios";
 import { useState } from "react";
 
-export function useUploadFile() {
+type UploadOptions = {
+    onSuccess?: (data: unknown) => void;
+    onError?: (message?: string) => void;
+};
+
+export function useUploadFile(options?: UploadOptions) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<unknown>(null);
     const [error, setError] = useState<string | null>(null);
@@ -13,16 +19,35 @@ export function useUploadFile() {
         try {
             setLoading(true);
             setError(null);
-            const response = await api.post("/upload/input-base", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+
+            const response = await api.post(
+                "/upload/input-base",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
             setData(response.data);
+
+            options?.onSuccess?.(response.data);
+
         } catch (err: unknown) {
-            const message =
-                err instanceof Error ? err.message : "Erro ao enviar arquivo";
+            let message = "Erro ao enviar arquivo";
+
+            if (axios.isAxiosError(err)) {
+                message =
+                    err.response?.data?.message ||
+                    err.message ||
+                    message;
+            } else if (err instanceof Error) {
+                message = err.message;
+            }
+
             setError(message);
+            options?.onError?.(message); // ✅ AGORA FUNCIONA
         } finally {
             setLoading(false);
         }

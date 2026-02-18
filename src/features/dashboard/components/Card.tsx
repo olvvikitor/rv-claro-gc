@@ -5,9 +5,11 @@ interface CardProps {
     title: string;
     value: string;
     color: "green" | "red" | "blue" | "darkGreen";
-    description: string;
+    description?: string;
     icon?: React.ReactNode;
+    variant?: "default" | "compact"; // 👈 nova prop
 }
+
 
 export const Cards: React.FC<CardProps> = ({
     title,
@@ -15,8 +17,11 @@ export const Cards: React.FC<CardProps> = ({
     color,
     description,
     icon,
+    variant = "default" // padrão
 }) => {
     const [showInfo, setShowInfo] = useState(false);
+
+    const isCompact = variant === "compact";
 
     const colorStyles = {
         green: {
@@ -49,43 +54,57 @@ export const Cards: React.FC<CardProps> = ({
 
     return (
         <div
-            className={`relative rounded-2xl p-6 border transition-all duration-300 
-        hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] 
-        ${styles.card} ${styles.glow} shadow-md`}
+            className={`relative rounded-2xl p-${isCompact ? "4" : "6"} border transition-all duration-300 
+            hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] 
+            ${styles.card} ${styles.glow} shadow-md`}
         >
             {/* Header */}
             <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-2">
-                    {icon && <span className={styles.text}>{icon}</span>}
-                    <h3 className={`text-sm font-semibold uppercase tracking-wide ${styles.text}`}>
+                    {!isCompact && icon && (
+                        <span className={styles.text}>{icon}</span>
+                    )}
+
+                    <h3
+                        className={`${
+                            isCompact ? "text-xs" : "text-sm"
+                        } font-semibold uppercase tracking-wide ${styles.text}`}
+                    >
                         {title}
                     </h3>
                 </div>
 
-                <div
-                    className="relative"
-                    onMouseEnter={() => setShowInfo(true)}
-                    onMouseLeave={() => setShowInfo(false)}
-                >
-                    <Info
-                        size={16}
-                        className={`cursor-pointer opacity-60 hover:opacity-100 transition-opacity ${styles.text}`}
-                    />
+                {/* Info só no default */}
+                {!isCompact && description && (
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setShowInfo(true)}
+                        onMouseLeave={() => setShowInfo(false)}
+                    >
+                        <Info
+                            size={16}
+                            className={`cursor-pointer opacity-60 hover:opacity-100 transition-opacity ${styles.text}`}
+                        />
 
-                    {showInfo && (
-                        <div className="absolute top-full right-0 mt-2 w-64 
-              bg-white dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300
-              p-4 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-700 
-              z-50 animate-fadeIn leading-relaxed"
-                        >
-                            {description}
-                        </div>
-                    )}
-                </div>
+                        {showInfo && (
+                            <div className="absolute top-full right-0 mt-2 w-64 
+                                bg-white dark:bg-zinc-800 text-xs text-zinc-700 dark:text-zinc-300
+                                p-4 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-700 
+                                z-50 animate-fadeIn leading-relaxed"
+                            >
+                                {description}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
             {/* Value */}
-            <p className={`text-3xl font-bold tracking-tight ${styles.value}`}>
+            <p
+                className={`${
+                    isCompact ? "text-xl" : "text-3xl"
+                } font-bold tracking-tight ${styles.value}`}
+            >
                 {value}
             </p>
         </div>

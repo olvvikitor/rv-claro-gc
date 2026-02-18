@@ -1,7 +1,9 @@
 import React from "react";
 import { Cards } from "./Card";
 import { SummaryData } from "../types/dashboard";
-import { ShoppingCart, AlertOctagon, Ban, XCircle } from "lucide-react";
+import { ShoppingCart, AlertOctagon, Ban, XCircle, ChartNoAxesGantt, Coins } from "lucide-react";
+import { getFaixa } from "./ModalCalculo";
+import { formatCurrency } from "@/shared/utils/formatCurrency";
 
 interface IndicatorsSectionProps {
     data: SummaryData | null;
@@ -23,13 +25,32 @@ const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ data, loading, er
     if (error || !data) return null;
 
     return (
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
             <Cards
                 title="Vendas Realizadas"
                 value={data.dados.vendasRealizadas.toString()}
                 color="green"
                 icon={<ShoppingCart size={18} />}
                 description="Total de vendas realizadas e instaladas no período."
+                variant="compact"
+            />
+            <Cards
+                title="Faixa Atual"
+                value={getFaixa(data.dados.vendasRealizadas)}
+                color="green"
+                icon={<ChartNoAxesGantt size={18} />}
+                description="Total de vendas realizadas e instaladas no período."
+                variant="compact"
+
+            />
+            <Cards
+                title="Valor por venda"
+                value={formatCurrency(data.dados.valorUnitarioAplicado)}
+                color="green"
+                icon={<Coins size={18} />}
+                description="Total de vendas realizadas e instaladas no período."
+                variant="compact"
+
             />
 
             <Cards
@@ -38,6 +59,8 @@ const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ data, loading, er
                 color={`${(data.dados.quebraAgendaPercent ?? 0) > 30 ? "red" : "blue"}`}
                 icon={<XCircle size={18} />}
                 description="Percentual de quebra de agenda (cancelamentos/agendamentos não cumpridos)."
+                variant="compact"
+
             />
 
             <Cards
@@ -46,6 +69,8 @@ const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ data, loading, er
                 color="red"
                 icon={<AlertOctagon size={18} />}
                 description="Quantidade de erros críticos cometidos no período (Auditoria, Qualidade)."
+                variant="compact"
+
             />
 
             <Cards
@@ -54,6 +79,7 @@ const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ data, loading, er
                 color="red"
                 icon={<Ban size={18} />}
                 description="Percentual de absenteísmo (faltas injustificadas) no período."
+                variant="compact"
             />
         </div>
     );

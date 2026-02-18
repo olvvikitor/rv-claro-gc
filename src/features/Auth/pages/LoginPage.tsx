@@ -1,22 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/logo/claro_logo.png";
 import { Lock, Mail, MapPin, LogIn, Loader2 } from "lucide-react";
+import { Bounce, toast } from "react-toastify";
 
 export default function LoginPage() {
+
+
+
+
   const navigate = useNavigate();
   const { loading, error, logar } = useLogin();
 
+
+
   const [site, setSite] = useState("");
   const [login, setLogin] = useState("");
+
   const [senha, setSenha] = useState("");
 
   const sites = [
     { label: "Comércio", value: "COMERCIO" },
-    { label: "FSA", value: "FSA" },
+    { label: "FSA", value: "FSABA_NOVO" },
   ];
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  }, [error]);
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const result = await logar({ site, login, senha });
@@ -41,7 +63,7 @@ export default function LoginPage() {
         <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-8 md:p-10">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-              <img src={logo} alt="Claro Logo" className="h-10 object-contain" />
+            <img src={logo} alt="Claro Logo" className="h-10 object-contain" />
           </div>
 
           {/* Title */}
@@ -120,13 +142,6 @@ export default function LoginPage() {
                 required
               />
             </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 animate-fadeIn">
-                <p className="text-red-400 text-sm">{error}</p>
-              </div>
-            )}
 
             {/* Submit Button */}
             <button
