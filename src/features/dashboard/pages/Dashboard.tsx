@@ -23,10 +23,10 @@ export default function DashboardPage() {
   }
 
   if (produto === 'MIS') {
-    produto = 'UP'
+    produto = 'UPGRADE PME'
   }
   if (produto === 'X') {
-    produto = 'BL'
+    produto = 'UPGRADE PME'
   }
 
   const { data: summaryData, loading: summaryLoading, error: summaryError, getSummary } = useSummary();
@@ -39,7 +39,7 @@ export default function DashboardPage() {
     <div className="space-y-8 animate-fadeIn">
       <DateFilter ano={ano} mes={mes} onAnoChange={setAno} onMesChange={setMes} />
 
-      {produto === 'UP' ? (
+      {produto === 'UPGRADE PME' ? (
         <PerformanceTickerUP data={summaryData}
         />
       ) : (
@@ -47,7 +47,7 @@ export default function DashboardPage() {
         />
       )}
 
-      {produto === 'UP' ? (
+      {produto === 'UPGRADE PME' ? (
         <SummarySectionUP
           data={summaryData}
           loading={summaryLoading}
@@ -62,7 +62,7 @@ export default function DashboardPage() {
       )}
 
 
-      {produto === 'UP' ? (
+      {produto === 'UPGRADE PME' ? (
         <IndicatorsSectionUP
           data={summaryData}
           loading={summaryLoading}
