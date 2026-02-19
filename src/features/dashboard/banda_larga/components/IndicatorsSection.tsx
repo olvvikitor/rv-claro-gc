@@ -1,8 +1,8 @@
 import React from "react";
 import { Cards } from "./Card";
-import { SummaryData } from "../types/dashboard";
+import { SummaryData } from "../../types/dashboard";
 import { ShoppingCart, AlertOctagon, Ban, XCircle, ChartNoAxesGantt, Coins } from "lucide-react";
-import { getFaixa } from "./ModalCalculo";
+import { getFaixa, valorAplicado } from "./ModalCalculo";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 
 interface IndicatorsSectionProps {
@@ -45,7 +45,7 @@ const IndicatorsSection: React.FC<IndicatorsSectionProps> = ({ data, loading, er
             />
             <Cards
                 title="Valor por venda"
-                value={formatCurrency(data.dados.valorUnitarioAplicado)}
+                value={formatCurrency(valorAplicado(data.dados.valorUnitarioAplicado))}
                 color="green"
                 icon={<Coins size={18} />}
                 description="Total de vendas realizadas e instaladas no período."

@@ -23,6 +23,8 @@ export default function LoginPage() {
   const sites = [
     { label: "Comércio", value: "COMERCIO" },
     { label: "FSA", value: "FSABA_NOVO" },
+    { label: "Barueri", value: "BARUERI" },
+    { label: "Matriz", value: "MATRIZ" },
   ];
 
   useEffect(() => {

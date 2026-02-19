@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, useState, useMemo } from "react";
 import { X, TrendingUp, AlertCircle, Percent, Receipt, Wallet } from "lucide-react";
-import { SummaryData } from "../types/dashboard";
+import { SummaryData } from "../../types/dashboard";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 
 interface ModalProps {
@@ -14,11 +14,15 @@ interface ModalProps {
 /* =========================
    FUNÇÕES DE CÁLCULO
 ========================= */
-export function getFaixa(vendas: number): string {
-    if (vendas <= 6) return "<70%";
-    if (vendas <= 10) return ">=70%";
-    if (vendas <= 20) return ">=100%";
-    return ">=150%";
+export function getFaixa(percent: number): string {
+    if (percent <= 59.99) return "Ate 59,99%%";
+    if (percent >= 60  && percent < 80) return "De 60% a 79,9%";
+    if (percent >= 80  && percent < 100) return "De 80% a 99%";
+    if (percent >= 100  && percent < 119) return "De 100% a 119%";
+    if (percent >= 120  && percent < 150) return "De 120% a 149%";
+    if (percent >= 150  && percent < 200) return "De 150% a 200%";
+    if (percent >= 200  && percent < 250) return "De 201% a 249%";
+    return "Acima de 250%";
 }
 
 export function getDescontoABS(abs: number): number {
@@ -38,14 +42,14 @@ export function getDescontoMonitoria(percent: number): number {
     return 100;
 }
 
-export default function ModalCalculo({ open, onClose, data, maxWidth = "max-w-2xl" }: ModalProps) {
+export default function ModalCalculoUP({ open, onClose, data, maxWidth = "max-w-2xl" }: ModalProps) {
     const [mounted, setMounted] = useState(false);
     const dados = data?.dados;
     if(!dados){
         return null
     }
 
-    const faixa = useMemo(() => (dados ? getFaixa(dados.vendasRealizadas) : ""), [dados]);
+    const faixa = useMemo(() => (dados ? getFaixa(dados.metaPercentual) : ""), [dados]);
     const descAbs = useMemo(() => (dados ? getDescontoABS(dados.absPercentual) : 0), [dados]);
     const descMonitoria = useMemo(() => (dados ? getDescontoMonitoria(dados.erroCriticoPercent) : 0), [dados]);
 
@@ -89,9 +93,7 @@ export default function ModalCalculo({ open, onClose, data, maxWidth = "max-w-2x
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <CardItem label="Vendas Realizadas" value={dados.vendasRealizadas} />
                             <CardItem label="Faixa Atingida" value={faixa} highlight />
-                            <CardItem label="Valor por Unidade" value={formatCurrency(dados.valorUnitarioAplicado)} />
-                            <CardItem label="Cálculo Base" value={`${dados.vendasRealizadas} x ${formatCurrency(dados.valorUnitarioAplicado)}`} />
-                            
+
                             <div className="sm:col-span-2 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-xl flex justify-between items-center">
                                 <span className="text-blue-700 dark:text-blue-300 text-sm font-medium">Subtotal Bruto de Vendas</span>
                                 <span className="text-blue-700 dark:text-blue-300 font-bold">{formatCurrency(dados.rvBase)}</span>

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { Trophy, Medal, Crown } from "lucide-react";
-import { useRanking } from "../hooks/useRanking";
+import { useRanking } from "../../hooks/useRanking";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
 import type { User } from "@/shared/types/user";
 
@@ -94,12 +94,13 @@ const RankingSection: React.FC<RankingProps> = ({ ano, mes }) => {
 
           const barColor =
             position === 1
-              ? "bg-gradient-to-r from-yellow-400 to-amber-500"
+              ? "bg-gradient-to-r from-yellow-100 to-amber-400"
               : position === 2
-                ? "bg-gradient-to-r from-zinc-400 to-zinc-500"
+                ? "bg-gradient-to-r from-zinc-100 to-zinc-500"
                 : position === 3
-                  ? "bg-gradient-to-r from-amber-400 to-orange-500"
-                  : "bg-gradient-to-r from-emerald-400 to-emerald-500";
+                  ? "bg-gradient-to-r from-amber-100 to-orange-900"
+
+                  : "bg-gradient-to-r from-emerald-100 to-emerald-900";
 
           return (
             <div
@@ -131,7 +132,7 @@ const RankingSection: React.FC<RankingProps> = ({ ano, mes }) => {
                         </span>
                       )}
                     </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+                    <p className="text-sm text-gray-600 font-semibold dark:text-zinc-100 font-medium">
                       {formatCurrency(item.rvFinal)}
                     </p>
                   </div>

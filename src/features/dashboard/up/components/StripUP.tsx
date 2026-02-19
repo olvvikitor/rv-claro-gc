@@ -1,51 +1,49 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles } from "lucide-react";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
-import { getProximaFaixaInfo } from "../services/faixaService";
-import { SummaryData } from "../types/dashboard";
+import { getProximaFaixaUp} from "../../services/faixaService";
+import { SummaryData } from "../../types/dashboard";
 
 export interface TicketProps {
   data: SummaryData | null;
 }
 
-export const PerformanceTicker: React.FC<TicketProps> = ({ data }) => {
+export const PerformanceTickerUP: React.FC<TicketProps> = ({ data }) => {
   const [index, setIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const mensagens = useMemo(() => {
     if (!data?.dados) return [];
 
-    const { vendasRealizadas, valorUnitarioAplicado, rvBase } = data.dados;
+    const { metaPercentual, rvBase } = data.dados;
 
-    const info = getProximaFaixaInfo(
-      Number(vendasRealizadas),
-      Number(valorUnitarioAplicado)
+    const info = getProximaFaixaUp(
+      Number(metaPercentual),
+      Number(rvBase)
     );
 
     if (!info) {
       return [
         `🏆 Você já está na maior faixa de comissão!`,
-        `💰 Seu bruto atual é ${formatCurrency(Number(rvBase))}`,
+        `💰 Seu RV atual é ${formatCurrency(Number(rvBase))}`,
         `🔥 Performance máxima atingida, parabéns!`
       ];
     }
 
-    const diferenca =
-      Number(info.novoBruto) - Number(rvBase);
-
     return [
-      `🚀 Faltam apenas ${info.vendasNecessarias} vendas para subir para faixa ${info.novaFaixa}`,
-      `💰 Seu bruto pode chegar a ${formatCurrency(info.novoBruto)} Isso representa +${formatCurrency(diferenca)} no seu resultado`,
-      `🔥 Continue assim, você está muito perto`
+      `🚀 Faltam apenas ${info.percentualNecessario}% para você atingir ${info.novaFaixaMinima}%`,
+      `💰 Seu RV pode subir para ${formatCurrency(info.novoValorRV)} (+${formatCurrency(info.diferencaValor)})`,
+      `🔥 Continue assim, você está muito perto da próxima faixa!`
     ];
   }, [data]);
 
+
   useEffect(() => {
-    if (!mensagens.length || isPaused) return;
+    if (!mensagens.length) return;
 
     let charIndex = 0;
     const currentMessage = mensagens[index];
@@ -60,9 +58,12 @@ export const PerformanceTicker: React.FC<TicketProps> = ({ data }) => {
         clearInterval(typingInterval);
         setIsTyping(false);
 
-        timeoutRef.current = setTimeout(() => {
-          setIndex((prev) => (prev + 1) % mensagens.length);
-        }, 4000);
+        // Só agenda próxima mensagem se não estiver pausado
+        if (!isPaused) {
+          timeoutRef.current = setTimeout(() => {
+            setIndex((prev) => (prev + 1) % mensagens.length);
+          }, 4000);
+        }
       }
     }, 25);
 

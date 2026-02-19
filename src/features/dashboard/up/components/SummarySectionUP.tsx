@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { HandCoins, HelpCircle, TrendingUp, TrendingDown, Gift, DollarSign, Calculator } from "lucide-react";
-import { Cards } from "./Card";
-import RemuneracaoModal from "./RemuneracaoModal";
+import { Cards } from "../../banda_larga/components/Card";
 import { formatCurrency } from "@/shared/utils/formatCurrency";
-import { SummaryData } from "../types/dashboard";
-import ModalCalculo from "./ModalCalculo";
+import { SummaryData } from "../../types/dashboard";
+import ModalCalculoUP from "./ModalCalculoUP";
+import RemuneracaoModalUP from "./RemuneracaoModalUP";
 
 export interface SummaryProps {
   data: SummaryData | null;
@@ -12,7 +12,7 @@ export interface SummaryProps {
   error: string | null;
 }
 
-const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
+const SummarySectionUP: React.FC<SummaryProps> = ({ data, loading, error }) => {
   const dataTeste = data
   const [openModal, setOpenModal] = useState(false);
   const [openModalCalculo, setOpenModalCalculo] = useState(false)
@@ -144,19 +144,19 @@ const SummarySection: React.FC<SummaryProps> = ({ data, loading, error }) => {
         </div>
       </div>
 
-      <RemuneracaoModal
+      <RemuneracaoModalUP
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       />
-      <ModalCalculo
+      <ModalCalculoUP
         open={
           openModalCalculo
         }
         onClose={() => setOpenModalCalculo(false)}
         data={dataTeste as SummaryData}
-      ></ModalCalculo>
+      ></ModalCalculoUP>
     </>
   );
 };
 
-export default SummarySection;
+export default SummarySectionUP;

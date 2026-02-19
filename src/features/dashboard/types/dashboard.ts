@@ -19,6 +19,8 @@ export interface SummaryData {
         erroCriticoQtd: number;
         erroCriticoPercent: number;
         quebraAgendaPercent?: number;
+        metaPercentual: number;
+        meta:number;
     };
 }
 

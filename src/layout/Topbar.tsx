@@ -2,8 +2,8 @@ import { LogOut, Moon, Sun, Upload, User as UserIcon } from "lucide-react";
 import logo from "@/assets/logo/claro_logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UploadModal } from "@/features/dashboard/components/UploadModal";
-import { UserModal } from "@/features/dashboard/components/UserModal";
+import { UploadModal } from "@/features/dashboard/banda_larga/components/UploadModal";
+import { UserModal } from "@/features/dashboard/banda_larga/components/UserModal";
 import type { User } from "@/shared/types/user";
 
 export default function Topbar() {
